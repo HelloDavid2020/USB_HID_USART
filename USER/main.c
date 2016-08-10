@@ -18,6 +18,9 @@
 #include "usart1.h"
 #include "usb_lib.h"
 #include "hw_config.h"
+#include "user_gpio.h"
+
+
 //#include"stm32f10x_conf.h" //as this .h haven been included in stm32f10x.h
 
 extern u8 Receive_Buffer[ReceiveLength];
@@ -47,6 +50,7 @@ void USB_PORT_SET(FunctionalState NewState)
 }  		
 int main(void)
 {
+	led_gpio_init();
 	USB_GPIO_Configuration();
 	USB_Interrupts_Config();
 	Set_USBClock();    
@@ -62,7 +66,9 @@ int main(void)
 	 while(1) //
 	 {
 		if (USB_ReceiveFlg == TRUE) //收到后上位机的数据后，将1S发送一次数据给PC
-		{
+		{				
+			GPIO_Toggle(GPIOB, GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5);
+
 			printf("\r\nUSB 收到数据:");
 			for(i=0;i<ReceiveLength;i++)
 			{
@@ -119,4 +125,18 @@ void assert_failed(uint8_t* file, uint32_t line)
 	printf("LINE:%d\r\n",__LINE__);
 }
 #endif 
+
+
+void NVIC_Configuration(void)
+{    
+  //NVIC_InitTypeDef NVIC_InitStructure;
+#ifdef  VECT_TAB_RAM  
+  /* Set the Vector Table base location at 0x20000000 */ 
+     NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0); 
+#else  /* VECT_TAB_FLASH  */
+  /* Set the Vector Table base location at 0x08000000 */ 
+     NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
+#endif 
+}
+
 

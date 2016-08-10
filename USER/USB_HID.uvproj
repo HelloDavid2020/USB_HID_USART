@@ -450,6 +450,11 @@
               <FileType>1</FileType>
               <FilePath>.\usb_pwr.c</FilePath>
             </File>
+            <File>
+              <FileName>user_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user_gpio.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
