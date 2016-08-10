@@ -23,6 +23,9 @@
 extern u8 Receive_Buffer[ReceiveLength];
 extern u8 Transi_Buffer[SendLength];
 extern u8 USB_ReceiveFlg;
+uint32_t tx_cnt=0;
+u8 tx_buf_data[50];
+u8 tx_buf_len=0;
 
 extern void USB_SendString(u8 *str);
 
@@ -44,31 +47,32 @@ void USB_PORT_SET(FunctionalState NewState)
 }  		
 int main(void)
 {
-	 USB_GPIO_Configuration();
-	 USB_Interrupts_Config();
-     Set_USBClock();    
-     USB_Init();
-     USB_ReceiveFlg = FALSE;
-	 
-	 USB_Cable_Config(ENABLE);  //硬件上拉D+，全速模式	
-	 USB_PORT_SET(DISABLE);   //软件断电USB
- 	 Delay(10000);
-	 USB_PORT_SET(ENABLE);	//U软件上电USB
-	 USART1_Config();
-	 printf("STM32 USB HID 收发实验\r\n");
-     while(1) //
-     {
-         if (USB_ReceiveFlg == TRUE) //收到后上位机的数据后，将1S发送一次数据给PC
-         {
-             printf("\r\nUSB 收到数据:");
-			 for(i=0;i<ReceiveLength;i++)
-			 {
-				 printf("%c",Receive_Buffer[i]);
-			 }
-			 USB_SendString("abcdefghijklmnopqrstuvwxyz");
-             USB_ReceiveFlg = 0x00;
-         }
-     }
+	USB_GPIO_Configuration();
+	USB_Interrupts_Config();
+	Set_USBClock();    
+	USB_Init();
+	USB_ReceiveFlg = FALSE;
+
+	USB_Cable_Config(ENABLE);  //硬件上拉D+，全速模式	
+	USB_PORT_SET(DISABLE);   //软件断电USB
+	Delay(10000);
+	USB_PORT_SET(ENABLE);	//U软件上电USB
+	USART1_Config();
+	printf("STM32 USB HID 收发实验\r\n");
+	 while(1) //
+	 {
+		if (USB_ReceiveFlg == TRUE) //收到后上位机的数据后，将1S发送一次数据给PC
+		{
+			printf("\r\nUSB 收到数据:");
+			for(i=0;i<ReceiveLength;i++)
+			{
+				printf("%c",Receive_Buffer[i]);
+			}
+			sprintf((void*)tx_buf_data,"USB SEND DATA: %d",tx_cnt++);
+			USB_SendString(tx_buf_data);
+			USB_ReceiveFlg = 0x00;
+		}
+	 }
 }
 void USB_SendString(u8 *str)
 {
