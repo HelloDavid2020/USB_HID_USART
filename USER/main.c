@@ -61,7 +61,8 @@ int main(void)
 	USB_PORT_SET(DISABLE);   //软件断电USB
 	Delay(10000);
 	USB_PORT_SET(ENABLE);	//U软件上电USB
-	USART1_Config();
+	USART1_Init(115200);//
+	USART3_Init(115200);// RS485
 	printf("STM32 USB HID 收发实验\r\n");
 	 while(1) //
 	 {
@@ -70,6 +71,7 @@ int main(void)
 			GPIO_Toggle(GPIOB, GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5);
 
 			printf("\r\nUSB 收到数据:");
+			Serial_PutString("\r\nRS485 TX\r\n");
 			for(i=0;i<ReceiveLength;i++)
 			{
 				printf("%c",Receive_Buffer[i]);
