@@ -35,6 +35,59 @@ extern void USB_SendString(u8 *str);
 void Delay(vu32 nCount);
 u16 i=0;
 
+
+/*******************************************************************************
+* Function Name  : NVIC_Configuration
+* Description    : Configures NVIC and Vector Table base location.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void user_nvic_config(void)
+{
+  NVIC_InitTypeDef NVIC_InitStructure;
+
+  NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x00);
+
+  /* 2 bits for Preemption Priority and 2 bits for Sub Priority */
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+
+	
+	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;	
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
+	NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;	
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);	
+	
+
+	/* Enable the USB interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+	
+	/* Enable the USB Wake-up interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = USBWakeUp_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+
+	NVIC_Init(&NVIC_InitStructure);   
+	
+	
+	
+	
+}
+
+
+
+
 //软件断开或开启USB的电源，从而实现USB的开启或关闭
 void USB_PORT_SET(FunctionalState NewState)
 {  	
@@ -50,9 +103,12 @@ void USB_PORT_SET(FunctionalState NewState)
 }  		
 int main(void)
 {
+	user_nvic_config();
+	
 	led_gpio_init();
+	
 	USB_GPIO_Configuration();
-	USB_Interrupts_Config();
+	//USB_Interrupts_Config();
 	Set_USBClock();    
 	USB_Init();
 	USB_ReceiveFlg = FALSE;
