@@ -5,12 +5,18 @@
 #include <stdbool.h>
 typedef struct
 {
-	u8 address;	// 地址
-	u8 liangcheng;// 量程
-	u8 type; //类型 电压电流	
-u16 value;
+	u32 sn;	          // 出厂编码
+	u8 address;	      // 地址
+	u8 liangcheng;    // 量程
+	u8 type;          // 类型 电压电流	
+	u16 ivalue;       // 工程值
+	float real_value; // 真实值
 }BIAOTOU;
-
+extern BIAOTOU *biaotou[4];
+extern BIAOTOU biaotouA;
+extern BIAOTOU biaotouB;
+extern BIAOTOU biaotouC;
+extern BIAOTOU biaotouD;
 
 #define RANGE_1KHZ 0x7D 
 #define RANGE_10KHZ 0x7E 
@@ -102,6 +108,6 @@ extern void delay_ms(u32 ms);
 extern u16 check_sum(u8* data, int len);
 extern bool connect_device(u8 id);
 extern u8 scan_device(void);
-extern u8 check_device_id(u8 *buf,u8 len);
+extern BIAOTOU* find_device(u8 *buf,u8 len);
 #endif
 

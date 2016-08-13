@@ -11,7 +11,11 @@ u8  sa_index=0;
 
 u16 rs485_rx_len=0;
 
-
+BIAOTOU biaotouA;
+BIAOTOU biaotouB;
+BIAOTOU biaotouC;
+BIAOTOU biaotouD;
+BIAOTOU *biaotou[4];
 
 void rs485_send(uint8_t *buffer, uint8_t len)
 {
@@ -103,7 +107,9 @@ u8 scan_device(void)
 	// AA 55 04 F4 sa 80 sH sL
 	u8 num = 0;
 	u8 sa = 0;
+	u8 n = 0;
 
+	
 	u8 source_address = 0;
 // 先发一次
 	connect_device(0);
@@ -115,19 +121,27 @@ u8 scan_device(void)
 	for (source_address = 1; source_address <= 100; source_address++)
 	{
 
-			if (connect_device(source_address))
-			{
+			connect_device(source_address);
+			
 				delay_ms(20);
 				if(rs485_rx_len>2)
 				{
-					sa=check_device_id(rs485_rx_buf,rs485_rx_len);
-					if(sa>0)
+					biaotou[n] = find_device(rs485_rx_buf,rs485_rx_len);
+					if(biaotou[n]->address>0)
 					{
+						n++;
 						source_add[sa_index++]=sa;
 						rs485_rx_len=0;
 						memset(rs485_rx_buf,0x00,sizeof rs485_rx_buf);
 					}
-				}
+					else
+					{
+					 
+					}
+				
+				
+				
+				
 				num++;
 			}
 			//System.Threading.Thread.Sleep(100);// 休眠100ms
@@ -137,8 +151,9 @@ u8 scan_device(void)
 
 }
 
-u8 check_device_id(u8 *buf,u8 len)
+BIAOTOU* find_device(u8 *buf,u8 len)
 {
+	BIAOTOU* biaotou;
 	u16 sum=0;
 	u8 high=0;
 	u8 low=0;
@@ -153,16 +168,21 @@ u8 check_device_id(u8 *buf,u8 len)
 		if ((low == buf[len - 1]) && (high == buf[len - 2]))
 		{
 
-			return buf[5];
+
+			biaotou->address=buf[5];  // ID			
+			biaotou->liangcheng=buf[6]; // 量程					
+			biaotou->type =buf[7]; //类型	
+			biaotou->sn = *(u32*)(buf+8);
+			//return biaotou;
 
 		}
 		else
 		{
-
-			return 0;
+		
 		}
+
 	}
-	return 0;
+	return biaotou;
 
 }
 
