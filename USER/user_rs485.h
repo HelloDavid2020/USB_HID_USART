@@ -12,7 +12,7 @@ typedef struct
 	u16 ivalue;       // 工程值
 	float real_value; // 真实值
 }BIAOTOU;
-extern BIAOTOU *biaotou[4];
+extern BIAOTOU biaotou[4];
 extern BIAOTOU biaotouA;
 extern BIAOTOU biaotouB;
 extern BIAOTOU biaotouC;
@@ -108,6 +108,6 @@ extern void delay_ms(u32 ms);
 extern u16 check_sum(u8* data, int len);
 extern bool connect_device(u8 id);
 extern u8 scan_device(void);
-extern BIAOTOU* find_device(u8 *buf,u8 len);
+extern bool find_device(u8 *buf,u8 len,BIAOTOU * biaotou);
 #endif
 

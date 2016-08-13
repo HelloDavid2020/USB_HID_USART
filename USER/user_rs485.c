@@ -15,7 +15,7 @@ BIAOTOU biaotouA;
 BIAOTOU biaotouB;
 BIAOTOU biaotouC;
 BIAOTOU biaotouD;
-BIAOTOU *biaotou[4];
+BIAOTOU biaotou[4];
 
 void rs485_send(uint8_t *buffer, uint8_t len)
 {
@@ -108,6 +108,7 @@ u8 scan_device(void)
 	u8 num = 0;
 	u8 sa = 0;
 	u8 n = 0;
+	BIAOTOU tbiaotou;
 
 	
 	u8 source_address = 0;
@@ -126,11 +127,18 @@ u8 scan_device(void)
 				delay_ms(20);
 				if(rs485_rx_len>2)
 				{
-					biaotou[n] = find_device(rs485_rx_buf,rs485_rx_len);
-					if(biaotou[n]->address>0)
+					if(find_device(rs485_rx_buf,rs485_rx_len,&tbiaotou)==true)
 					{
+						//memcpy(&biaotou[n++],&tbiaotou,sizeof tbiaotou);
+						
+						biaotou[n].address=tbiaotou.address;
+						biaotou[n].sn=tbiaotou.sn;
+						biaotou[n].type=tbiaotou.type;
+						biaotou[n].ivalue=tbiaotou.ivalue;
+						biaotou[n].liangcheng=tbiaotou.liangcheng;
+						biaotou[n].real_value=tbiaotou.real_value;
 						n++;
-						source_add[sa_index++]=sa;
+						source_add[sa_index++]=tbiaotou.address;
 						rs485_rx_len=0;
 						memset(rs485_rx_buf,0x00,sizeof rs485_rx_buf);
 					}
@@ -139,9 +147,7 @@ u8 scan_device(void)
 					 
 					}
 				
-				
-				
-				
+
 				num++;
 			}
 			//System.Threading.Thread.Sleep(100);// 休眠100ms
@@ -151,9 +157,8 @@ u8 scan_device(void)
 
 }
 
-BIAOTOU* find_device(u8 *buf,u8 len)
+bool find_device(u8 *buf,u8 len,BIAOTOU * biaotou)
 {
-	BIAOTOU* biaotou;
 	u16 sum=0;
 	u8 high=0;
 	u8 low=0;
@@ -173,16 +178,16 @@ BIAOTOU* find_device(u8 *buf,u8 len)
 			biaotou->liangcheng=buf[6]; // 量程					
 			biaotou->type =buf[7]; //类型	
 			biaotou->sn = *(u32*)(buf+8);
-			//return biaotou;
+			return true;
 
 		}
 		else
 		{
-		
+			return false;
 		}
 
 	}
-	return biaotou;
+	return false;
 
 }
 
