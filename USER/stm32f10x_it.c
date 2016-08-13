@@ -26,7 +26,7 @@
 #include "usart1.h"
 #include "usb_istr.h"
 #include "user_rs485.h"
-
+#include "user_delay.h"
 
 /**
   * @brief  This function handles NMI exception.
@@ -122,10 +122,13 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
-{
-}
-
+void SysTick_Handler(void) 
+{ 
+	if (TimingDelay != 0x00) 
+	{ 
+		TimingDelay--; 
+	} 
+} 
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */

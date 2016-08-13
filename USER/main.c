@@ -20,7 +20,7 @@
 #include "hw_config.h"
 #include "user_gpio.h"
 #include "user_rs485.h"
-
+#include "user_delay.h"
 //#include"stm32f10x_conf.h" //as this .h haven been included in stm32f10x.h
 
 extern u8 Receive_Buffer[ReceiveLength];
@@ -119,6 +119,8 @@ int main(void)
 	USB_PORT_SET(ENABLE);	//U软件上电USB
 	USART1_Init(115200);//
 	USART3_Init(115200);// RS485
+	Init_SysTick();
+	
 	printf("STM32 USB HID 收发实验\r\n");			
 	//Serial_PutString("\r\nHello RS485 \r\n");
 scan_device();

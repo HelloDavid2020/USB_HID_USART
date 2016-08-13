@@ -71,7 +71,7 @@ u8 scan_device(void)
 
 			if (connect_device(source_address))
 			{
-				delay_ms(1000);
+				delay_ms(50);
 					num++;
 			}
 			//System.Threading.Thread.Sleep(100);// ÐÝÃß100ms
@@ -81,8 +81,8 @@ u8 scan_device(void)
 
 }
 
-void delay_ms(u32 ms)
-{
-	Delay(20*ms);
-}
+//void delay_ms(u32 ms)
+//{
+//	Delay(20*ms);
+//}
 

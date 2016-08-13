@@ -460,6 +460,11 @@
               <FileType>1</FileType>
               <FilePath>.\user_rs485.c</FilePath>
             </File>
+            <File>
+              <FileName>user_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user_delay.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
