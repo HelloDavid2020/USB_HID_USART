@@ -19,7 +19,7 @@
 #include "usb_lib.h"
 #include "hw_config.h"
 #include "user_gpio.h"
-
+#include "user_rs485.h"
 
 //#include"stm32f10x_conf.h" //as this .h haven been included in stm32f10x.h
 
@@ -120,8 +120,8 @@ int main(void)
 	USART1_Init(115200);//
 	USART3_Init(115200);// RS485
 	printf("STM32 USB HID 收发实验\r\n");			
-	Serial_PutString("\r\nHello RS485 \r\n");
-
+	//Serial_PutString("\r\nHello RS485 \r\n");
+scan_device();
 	 while(1) //
 	 {
 		if (USB_ReceiveFlg == TRUE) //收到后上位机的数据后，将1S发送一次数据给PC

@@ -156,7 +156,36 @@
           <Name>-O14 -S0 -C0 -N00("ARM Cortex-M3") -D00(1BA00477) -L00(4) -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL010000)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>127</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>rs485_rx_buf</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>rs485_rx_len,0x0A</ItemText>
+        </Ww>
+      </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
       </Tracepoint>
@@ -203,10 +232,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>21</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>111</TopLine>
-      <CurrentLine>115</CurrentLine>
+      <TopLine>105</TopLine>
+      <CurrentLine>120</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -219,10 +248,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>28</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>182</TopLine>
-      <CurrentLine>191</CurrentLine>
+      <TopLine>16</TopLine>
+      <CurrentLine>207</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\stm32f10x_it.c</PathWithFileName>
       <FilenameWithoutPath>stm32f10x_it.c</FilenameWithoutPath>
@@ -299,10 +328,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>17</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\usb_istr.c</PathWithFileName>
       <FilenameWithoutPath>usb_istr.c</FilenameWithoutPath>
@@ -357,6 +386,22 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>11</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>1</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\user_rs485.c</PathWithFileName>
+      <FilenameWithoutPath>user_rs485.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
   </Group>
 
   <Group>
@@ -367,7 +412,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>11</FileNumber>
+      <FileNumber>12</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -383,7 +428,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>12</FileNumber>
+      <FileNumber>13</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -399,7 +444,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>13</FileNumber>
+      <FileNumber>14</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -415,7 +460,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>14</FileNumber>
+      <FileNumber>15</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -431,7 +476,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>15</FileNumber>
+      <FileNumber>16</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -455,13 +500,13 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>16</FileNumber>
+      <FileNumber>17</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>132</TopLine>
+      <TopLine>144</TopLine>
       <CurrentLine>151</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\CMSIS\startup_stm32f10x_hd.s</PathWithFileName>
@@ -479,7 +524,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>17</FileNumber>
+      <FileNumber>18</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -495,7 +540,7 @@
     </File>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>18</FileNumber>
+      <FileNumber>19</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -519,7 +564,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>19</FileNumber>
+      <FileNumber>20</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -535,7 +580,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>20</FileNumber>
+      <FileNumber>21</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -551,7 +596,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>21</FileNumber>
+      <FileNumber>22</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -567,7 +612,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>22</FileNumber>
+      <FileNumber>23</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -583,7 +628,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>23</FileNumber>
+      <FileNumber>24</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>

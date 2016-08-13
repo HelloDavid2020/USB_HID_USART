@@ -455,6 +455,11 @@
               <FileType>1</FileType>
               <FilePath>.\user_gpio.c</FilePath>
             </File>
+            <File>
+              <FileName>user_rs485.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user_rs485.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

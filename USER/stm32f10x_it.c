@@ -25,21 +25,8 @@
 #include "stm32f10x_it.h"
 #include "usart1.h"
 #include "usb_istr.h"
+#include "user_rs485.h"
 
-/** @addtogroup STM32F10x_StdPeriph_Template
-  * @{
-  */
-
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
-
-/******************************************************************************/
-/*            Cortex-M3 Processor Exceptions Handlers                         */
-/******************************************************************************/
 
 /**
   * @brief  This function handles NMI exception.
@@ -219,6 +206,8 @@ void USART3_IRQHandler(void)
 	{
 		USART_ClearITPendingBit(USART3,USART_IT_RXNE);
 		recData = USART_ReceiveData(USART3);
+		rs485_rx_buf[rs485_rx_len]=recData;
+		rs485_rx_len++;
 
 	}
 	
