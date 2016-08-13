@@ -188,3 +188,45 @@ void USBWakeUp_IRQHandler(void)
 {
   EXTI_ClearITPendingBit(EXTI_Line18);
 } 
+
+void USART1_IRQHandler(void)
+{
+	if(USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
+	{
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);		
+	}
+
+	if(USART_GetITStatus(USART1, USART_IT_TXE) == SET)
+	{
+		USART_ClearITPendingBit(USART1, USART_IT_TXE);
+	}
+
+	//溢出-如果发生溢出需要先读SR,再读DR寄存器 则可清除不断入中断的问题
+	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)==SET)
+	{
+		USART_ClearFlag(USART1,USART_FLAG_ORE);	//读SR
+		USART_ReceiveData(USART1);				//读DR
+	}
+}
+
+
+void USART3_IRQHandler(void)
+{
+	uint8_t queue_read_buf = 0;
+	uint8_t recData = 0;
+	uint16_t i =0;
+	if(USART_GetITStatus(USART3,USART_IT_RXNE)==SET)   	//接收中断
+	{
+		USART_ClearITPendingBit(USART3,USART_IT_RXNE);
+		recData = USART_ReceiveData(USART3);
+
+	}
+	
+
+	if(USART_GetFlagStatus(USART3,USART_FLAG_ORE)==SET)	  	//溢出处理
+	{
+		USART_ClearFlag(USART3,USART_FLAG_ORE);	            //清除ORE
+		USART_ReceiveData(USART3);				            //读DR
+	}	
+}
+

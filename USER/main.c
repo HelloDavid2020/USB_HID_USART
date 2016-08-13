@@ -50,7 +50,7 @@ void user_nvic_config(void)
   NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x00);
 
   /* 2 bits for Preemption Priority and 2 bits for Sub Priority */
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
 	
 	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
@@ -119,7 +119,9 @@ int main(void)
 	USB_PORT_SET(ENABLE);	//U软件上电USB
 	USART1_Init(115200);//
 	USART3_Init(115200);// RS485
-	printf("STM32 USB HID 收发实验\r\n");
+	printf("STM32 USB HID 收发实验\r\n");			
+	Serial_PutString("\r\nHello RS485 \r\n");
+
 	 while(1) //
 	 {
 		if (USB_ReceiveFlg == TRUE) //收到后上位机的数据后，将1S发送一次数据给PC
