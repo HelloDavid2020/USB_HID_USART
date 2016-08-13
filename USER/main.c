@@ -125,23 +125,20 @@ int main(void)
 	//Serial_PutString("\r\nHello RS485 \r\n");
 scan_device();
 
-
-
-
 	 while(1) //
 	 {
 		if (USB_ReceiveFlg == TRUE) //收到后上位机的数据后，将1S发送一次数据给PC
 		{				
 			GPIO_Toggle(GPIOB, GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5);
 
-			printf("\r\nUSB 收到数据:");
-			Serial_PutString("\r\nRS485 TX\r\n");
-			for(i=0;i<ReceiveLength;i++)
-			{
-				printf("%c",Receive_Buffer[i]);
-			}
-	sprintf((void*)tx_buf_data,"source_add: <%02d> <%02d> <%02d> <%02d>",source_add[0],source_add[1],source_add[2],source_add[3]);
-	USB_SendString(tx_buf_data);
+//			printf("\r\nUSB 收到数据:");
+//			
+//			for(i=0;i<ReceiveLength;i++)
+//			{
+//				printf("%c",Receive_Buffer[i]);
+//			}
+			sprintf((void*)tx_buf_data,"source_add: <%02d> <%02d> <%02d> <%02d>",source_add[0],source_add[1],source_add[2],source_add[3]);
+			USB_SendString(tx_buf_data);
 			USB_ReceiveFlg = 0x00;
 		}
 	 }

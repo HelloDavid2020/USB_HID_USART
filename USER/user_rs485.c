@@ -65,6 +65,39 @@ bool connect_device(u8 id)
 
 }
 
+// 返回1标识ID存在，返回0表示设备不存在
+u16 get_device_data(u8 id)
+{
+	u16 value= 0;
+	u8 cmd[30] = {0};
+	u16 sum = 0;
+	int h = 0;
+	int l = 0;
+	cmd[0] = 0xAA;
+	cmd[1] = 0x55;
+	cmd[2] = 0x04;
+	cmd[3] = 0xF4;
+	cmd[4] = id;
+	cmd[5] = 0x80;
+
+	sum = check_sum(cmd, 6);
+
+	h = sum >> 8;
+	l = sum & 0xFF;
+
+	cmd[6] = (u8)h;
+	cmd[7] = (u8)l;
+
+	rs485_send(cmd,8);
+	
+	
+	return true;
+
+}
+
+
+
+
 u8 scan_device(void)
 {
 	// AA 55 04 F4 sa 80 sH sL
@@ -76,7 +109,7 @@ u8 scan_device(void)
 	connect_device(0);
 	rs485_rx_len=0;
 	memset(rs485_rx_buf,0x00,sizeof rs485_rx_buf);	
-	delay_ms(50);
+	delay_ms(10);
 // --------------------------------------------------------
 
 	for (source_address = 1; source_address <= 100; source_address++)
@@ -84,7 +117,7 @@ u8 scan_device(void)
 
 			if (connect_device(source_address))
 			{
-				delay_ms(50);
+				delay_ms(20);
 				if(rs485_rx_len>2)
 				{
 					sa=check_device_id(rs485_rx_buf,rs485_rx_len);
@@ -99,13 +132,6 @@ u8 scan_device(void)
 			}
 			//System.Threading.Thread.Sleep(100);// 休眠100ms
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	return num;
 
@@ -139,6 +165,11 @@ u8 check_device_id(u8 *buf,u8 len)
 	return 0;
 
 }
+
+
+
+
+
 
 
 
