@@ -2,7 +2,10 @@
 #include "usart1.h"
 
 
-u8  rs485_rx_buf[1000];
+u8  rs485_rx_buf[500];
+u8  source_add[4]={0};
+u8  sa_index=0;
+
 u16 rs485_rx_len=0;
 
 
@@ -63,6 +66,8 @@ u8 scan_device(void)
 {
 	// AA 55 04 F4 sa 80 sH sL
 	u8 num = 0;
+	u8 sa = 0;
+
 	u8 source_address = 0;
 
 
@@ -72,17 +77,64 @@ u8 scan_device(void)
 			if (connect_device(source_address))
 			{
 				delay_ms(50);
-					num++;
+				if(rs485_rx_len>2)
+				{
+					sa=check_device_id(rs485_rx_buf,rs485_rx_len);
+					if(sa>0)
+					{
+						source_add[sa_index++]=sa;
+						rs485_rx_len=0;
+						memset(rs485_rx_buf,0x00,sizeof rs485_rx_buf);
+					}
+				}
+				num++;
 			}
 			//System.Threading.Thread.Sleep(100);// ÐÝÃß100ms
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	return num;
 
 }
 
-//void delay_ms(u32 ms)
-//{
-//	Delay(20*ms);
-//}
+u8 check_device_id(u8 *buf,u8 len)
+{
+	u16 sum=0;
+	u8 high=0;
+	u8 low=0;
+
+	if(buf[0]==0xAA && buf[1]==0x55)
+	{
+		check_sum(buf,len);
+		sum = check_sum(buf, len - 2);
+
+		high = (u8)(sum >> 8);
+		low = (u8)(sum & 0xFF);
+		if ((low == buf[len - 1]) && (high == buf[len - 2]))
+		{
+
+			return buf[5];
+
+		}
+		else
+		{
+
+			return 0;
+		}
+	}
+	return 0;
+
+}
+
+
+
+
+
+
 
