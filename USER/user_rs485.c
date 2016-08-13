@@ -1,5 +1,8 @@
 #include "user_rs485.h"
 #include "usart1.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
 
 
 u8  rs485_rx_buf[500];
@@ -69,7 +72,12 @@ u8 scan_device(void)
 	u8 sa = 0;
 
 	u8 source_address = 0;
-
+// 先发一次
+	connect_device(0);
+	rs485_rx_len=0;
+	memset(rs485_rx_buf,0x00,sizeof rs485_rx_buf);	
+	delay_ms(50);
+// --------------------------------------------------------
 
 	for (source_address = 1; source_address <= 100; source_address++)
 	{

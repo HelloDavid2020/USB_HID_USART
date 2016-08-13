@@ -124,6 +124,10 @@ int main(void)
 	printf("STM32 USB HID 收发实验\r\n");			
 	//Serial_PutString("\r\nHello RS485 \r\n");
 scan_device();
+
+
+
+
 	 while(1) //
 	 {
 		if (USB_ReceiveFlg == TRUE) //收到后上位机的数据后，将1S发送一次数据给PC
@@ -136,8 +140,8 @@ scan_device();
 			{
 				printf("%c",Receive_Buffer[i]);
 			}
-			sprintf((void*)tx_buf_data,"USB SEND DATA: %d",tx_cnt++);
-			USB_SendString(tx_buf_data);
+	sprintf((void*)tx_buf_data,"source_add: <%02d> <%02d> <%02d> <%02d>",source_add[0],source_add[1],source_add[2],source_add[3]);
+	USB_SendString(tx_buf_data);
 			USB_ReceiveFlg = 0x00;
 		}
 	 }

@@ -18,8 +18,8 @@
 #define __USB_CONF_H
 
 
-#define SendLength		20			//usb发送数据的长度
-#define ReceiveLength   20			//usb接收数据的长度
+#define SendLength		50			//usb发送数据的长度
+#define ReceiveLength 50			//usb接收数据的长度
 //只需修改这两个长度，就可以改变收发长度的大小
 //其实用到这两个宏的文件有：
 //main.c :数据操作发送

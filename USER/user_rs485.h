@@ -5,6 +5,9 @@
 #include <stdbool.h>
 
 
+extern u8  source_add[4];
+extern u8  sa_index;
+
 extern u8  rs485_rx_buf[500];
 extern u16 rs485_rx_len;
 extern void Delay(vu32 nCount);
