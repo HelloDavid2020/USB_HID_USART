@@ -124,6 +124,10 @@ int main(void)
 	printf("STM32 USB HID 收发实验\r\n");			
 	//Serial_PutString("\r\nHello RS485 \r\n");
 scan_device();
+get_device_value(&biaotou[0],100);
+get_device_value(&biaotou[1],100);
+get_device_value(&biaotou[2],100);
+//get_device_value(biaotou[3].address,100,biaotou[3]);
 
 	 while(1) //
 	 {

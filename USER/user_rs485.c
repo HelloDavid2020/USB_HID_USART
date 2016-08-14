@@ -11,6 +11,8 @@ u8  sa_index=0;
 
 u16 rs485_rx_len=0;
 
+u32 com_time_out =0; // 通信超时处理
+
 BIAOTOU biaotouA;
 BIAOTOU biaotouB;
 BIAOTOU biaotouC;
@@ -69,19 +71,78 @@ bool connect_device(u8 id)
 
 }
 
+// 处理数据帧
+bool handle_data_frame(u8 *buf,u8 len,BIAOTOU *biaotou)
+{
+	u16 sum=0;
+	u8 high=0;
+	u8 low=0;
+
+	if(len>9)
+	{
+		if(buf[0]==0xAA && buf[1]==0x55 && buf[2]==0x06 && buf[3]==0xF6 && buf[4]==0x80 )
+		{
+			check_sum(buf,len);
+			sum = check_sum(buf, len - 2);
+
+			high = (u8)(sum >> 8);
+			low = (u8)(sum & 0xFF);
+			if ((low == buf[len - 1]) && (high == buf[len - 2]))
+			{
+
+				if(biaotou->address==buf[5])
+				{
+					biaotou->ivalue=*(signed short*)(buf+6);
+					
+					if(biaotou->type==0x12)
+					{
+						biaotou->real_value=biaotou->ivalue/100.00;
+					}
+					if(biaotou->type==0x11)
+					{
+						biaotou->real_value=biaotou->ivalue/10000.00;
+					}
+					return true; // 解析成功
+				}	
+				else
+				{
+					return false; // sa 不存在
+				}
+			}
+		}
+		else
+		{
+			return false;// 校验失败
+		}
+
+	}
+	return false;
+}
+	
+
+
+
 // 返回1标识ID存在，返回0表示设备不存在
-u16 get_device_data(u8 id)
+// 
+bool get_device_value(BIAOTOU *biaotou,u8 timeout)
 {
 	u16 value= 0;
 	u8 cmd[30] = {0};
 	u16 sum = 0;
 	int h = 0;
 	int l = 0;
+	com_time_out=timeout;
+
+	
+	
+	memset(rs485_rx_buf,0x00,sizeof rs485_rx_buf);
+	rs485_rx_len=0;
+	
 	cmd[0] = 0xAA;
 	cmd[1] = 0x55;
 	cmd[2] = 0x04;
-	cmd[3] = 0xF4;
-	cmd[4] = id;
+	cmd[3] = 0xFE;
+	cmd[4] = biaotou->address;
 	cmd[5] = 0x80;
 
 	sum = check_sum(cmd, 6);
@@ -93,10 +154,14 @@ u16 get_device_data(u8 id)
 	cmd[7] = (u8)l;
 
 	rs485_send(cmd,8);
-	
-	
-	return true;
-
+	while(com_time_out)
+	{
+		if(handle_data_frame(rs485_rx_buf,rs485_rx_len,biaotou)==true)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -190,8 +255,6 @@ bool find_device(u8 *buf,u8 len,BIAOTOU * biaotou)
 	return false;
 
 }
-
-
 
 
 

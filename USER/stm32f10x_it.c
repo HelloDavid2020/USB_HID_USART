@@ -124,10 +124,20 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void) 
 { 
+	// 延时
 	if (TimingDelay != 0x00) 
 	{ 
 		TimingDelay--; 
 	} 
+	
+	// 通讯超时处理
+	if (com_time_out != 0x00) 
+	{ 
+		com_time_out--; 
+	} 
+	
+	
+	
 } 
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */

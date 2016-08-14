@@ -9,7 +9,7 @@ typedef struct
 	u8 address;	      // 地址
 	u8 liangcheng;    // 量程
 	u8 type;          // 类型 电压电流	
-	u16 ivalue;       // 工程值
+	signed short ivalue;       // 工程值
 	float real_value; // 真实值
 }BIAOTOU;
 extern BIAOTOU biaotou[4];
@@ -103,11 +103,19 @@ extern u8  sa_index;
 
 extern u8  rs485_rx_buf[500];
 extern u16 rs485_rx_len;
+extern u32 com_time_out; // 通信超时处理
+
+
 extern void Delay(vu32 nCount);
 extern void delay_ms(u32 ms);
 extern u16 check_sum(u8* data, int len);
 extern bool connect_device(u8 id);
 extern u8 scan_device(void);
 extern bool find_device(u8 *buf,u8 len,BIAOTOU * biaotou);
+
+extern bool handle_data_frame(u8 *buf,u8 len,BIAOTOU *biaotou);
+extern bool get_device_value(BIAOTOU *biaotou,u8 timeout);
+
+
 #endif
 
