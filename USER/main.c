@@ -152,6 +152,12 @@ get_device_value(&biaotou[2],100);
 		get_device_value(&biaotou[2],100); 
 		get_device_value(&biaotou[3],100); 
 
+
+		sprintf((void*)tx_buf_data,"<%02d %.02f> <%02d %.02f> <%02d %.02f> <%02d %.02f>",
+		biaotou[0].address,biaotou[0].real_value,biaotou[1].address,biaotou[1].real_value,biaotou[2].address,biaotou[2].real_value,biaotou[3].address,biaotou[3].real_value);
+
+		USB_SendString(tx_buf_data);
+
 		GPIO_Toggle(GPIOB, GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5);
 		delay_ms(200);
 
