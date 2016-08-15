@@ -31,10 +31,10 @@ u8 tx_buf_data[50];
 u8 tx_buf_len=0;
 
 extern void USB_SendString(u8 *str);
-
+void USB_sendPacket(uint8_t *buffer, uint8_t len);
 void Delay(vu32 nCount);
 u16 i=0;
-
+void report_data(void);
 
 /*******************************************************************************
 * Function Name  : NVIC_Configuration
@@ -152,11 +152,11 @@ get_device_value(&biaotou[2],100);
 		get_device_value(&biaotou[2],100); 
 		get_device_value(&biaotou[3],100); 
 
+report_data();
+//		sprintf((void*)tx_buf_data,"<%02d %.02f> <%02d %.02f> <%02d %.02f> <%02d %.02f>",
+//		biaotou[0].address,biaotou[0].real_value,biaotou[1].address,biaotou[1].real_value,biaotou[2].address,biaotou[2].real_value,biaotou[3].address,biaotou[3].real_value);
 
-		sprintf((void*)tx_buf_data,"<%02d %.02f> <%02d %.02f> <%02d %.02f> <%02d %.02f>",
-		biaotou[0].address,biaotou[0].real_value,biaotou[1].address,biaotou[1].real_value,biaotou[2].address,biaotou[2].real_value,biaotou[3].address,biaotou[3].real_value);
-
-		USB_SendString(tx_buf_data);
+//		USB_SendString(tx_buf_data);
 
 		GPIO_Toggle(GPIOB, GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5);
 		delay_ms(200);
@@ -174,6 +174,55 @@ void USB_SendString(u8 *str)
      UserToPMABufferCopy(Transi_Buffer, ENDP2_TXADDR, SendLength);
      SetEPTxValid(ENDP2);
 }
+
+
+
+void USB_sendPacket(uint8_t *buffer, uint8_t len)
+{
+	uint8_t ii=0;   
+
+	uint8_t	sendIndex	=len;
+	uint8_t	*pData	=NULL;
+	pData = buffer;
+
+	while(sendIndex--)
+	{	
+		Transi_Buffer[ii++]=*(pData++);
+	}
+  UserToPMABufferCopy(Transi_Buffer, ENDP2_TXADDR, SendLength);
+  SetEPTxValid(ENDP2);
+}
+
+void report_data(void)
+{
+	static uint8_t cnt=0;
+	uint8_t *ptr=NULL;
+	ptr=tx_buf_data;
+	*ptr++=0xF1;
+	*ptr++=0xF2;
+	*ptr++=0xF3;
+
+	*ptr++=0x01;  // 电压表1
+	*ptr++=0x02;  // 
+
+	*ptr++=0x01;  // 电压表2
+	*ptr++=0x02;
+
+	*ptr++=0x01;  // 电流表1 
+	*ptr++=0x02;
+
+	*ptr++=0x01;  // 电流表2 
+	*ptr++=cnt++;
+
+
+	*ptr++=0xBE;
+	*ptr++=0xBF;//	
+
+	tx_buf_len =3+8+2;	
+	USB_sendPacket(tx_buf_data,tx_buf_len);
+
+}
+
 /*******************************************************************************
 * Function Name  : Delay
 * Description    : Inserts a delay time.
