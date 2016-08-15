@@ -189,7 +189,7 @@ u8 scan_device(void)
 
 			connect_device(source_address);
 			
-				delay_ms(20);
+				delay_ms(50);
 				if(rs485_rx_len>2)
 				{
 					if(find_device(rs485_rx_buf,rs485_rx_len,&tbiaotou)==true)

@@ -114,16 +114,20 @@ int main(void)
 	USB_ReceiveFlg = FALSE;
 
 	USB_Cable_Config(ENABLE);  //硬件上拉D+，全速模式	
-	USB_PORT_SET(DISABLE);   //软件断电USB
-	Delay(10000);
-	USB_PORT_SET(ENABLE);	//U软件上电USB
+//	USB_PORT_SET(DISABLE);   //软件断电USB
+//	Delay(10000);
+//	USB_PORT_SET(ENABLE);	//U软件上电USB
 	USART1_Init(115200);//
 	USART3_Init(115200);// RS485
 	Init_SysTick();
 	
-	printf("STM32 USB HID 收发实验\r\n");			
-	//Serial_PutString("\r\nHello RS485 \r\n");
+	//printf("STM32 USB HID 收发实验\r\n");			
+	//Serial_PutString("\r\nHello RS485 \r\n");		
+	delay_ms(200);
+	
 scan_device();
+
+
 get_device_value(&biaotou[0],100);
 get_device_value(&biaotou[1],100);
 get_device_value(&biaotou[2],100);
@@ -189,7 +193,7 @@ void USB_sendPacket(uint8_t *buffer, uint8_t len)
 	{	
 		Transi_Buffer[ii++]=*(pData++);
 	}
-  UserToPMABufferCopy(Transi_Buffer, ENDP2_TXADDR, SendLength);
+  UserToPMABufferCopy(Transi_Buffer, ENDP2_TXADDR, len);
   SetEPTxValid(ENDP2);
 }
 
@@ -201,11 +205,23 @@ void report_data(void)
 	tx_buf_data[0]=0xF1;
 	tx_buf_data[1]=0xF2;
 	tx_buf_data[2]=0xF3;
+	
+	tx_buf_data[3]=biaotou[0].address;
+	tx_buf_data[4]=biaotou[0].type;
+	*(int16_t*)(tx_buf_data+5)=biaotou[0].ivalue;  // 电压表1
 
-*(int16_t*)(tx_buf_data+3)=biaotou[2].ivalue;  // 电压表1
-*(int16_t*)(tx_buf_data+5)=biaotou[2].ivalue;  // 电压表1
-*(int16_t*)(tx_buf_data+7)=biaotou[2].ivalue;  // 电压表1
-*(int16_t*)(tx_buf_data+9)=biaotou[2].ivalue;  // 电压表1
+	tx_buf_data[7]=biaotou[1].address;
+	tx_buf_data[8]=biaotou[1].type;
+	*(int16_t*)(tx_buf_data+9)=biaotou[1].ivalue;  // 电压表1
+
+	tx_buf_data[11]=biaotou[2].address;
+	tx_buf_data[12]=biaotou[2].type;	
+	*(int16_t*)(tx_buf_data+13)=biaotou[2].ivalue;  // 电压表1
+
+
+	tx_buf_data[15]=biaotou[3].address;
+	tx_buf_data[16]=biaotou[3].type;
+	*(int16_t*)(tx_buf_data+17)=biaotou[3].ivalue;  // 电压表1
 
 //	*ptr+2=0x01;  // 电压表2
 //	*ptr++=0x02;
@@ -217,10 +233,10 @@ void report_data(void)
 //	*ptr++=cnt++;
 
 
-	tx_buf_data[11]=0xBE;
-	tx_buf_data[12]=0xBF;//	
+	tx_buf_data[19]=0xBE;
+	tx_buf_data[20]=0xBF;//	
 
-	tx_buf_len =3+8+2;	
+	tx_buf_len =21;	
 	USB_sendPacket(tx_buf_data,tx_buf_len);
 
 }
