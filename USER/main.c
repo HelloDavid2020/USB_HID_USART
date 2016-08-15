@@ -198,25 +198,27 @@ void report_data(void)
 	static uint8_t cnt=0;
 	uint8_t *ptr=NULL;
 	ptr=tx_buf_data;
-	*ptr++=0xF1;
-	*ptr++=0xF2;
-	*ptr++=0xF3;
+	tx_buf_data[0]=0xF1;
+	tx_buf_data[1]=0xF2;
+	tx_buf_data[2]=0xF3;
 
-	*ptr++=0x01;  // 电压表1
-	*ptr++=0x02;  // 
+*(int16_t*)(tx_buf_data+3)=biaotou[2].ivalue;  // 电压表1
+*(int16_t*)(tx_buf_data+5)=biaotou[2].ivalue;  // 电压表1
+*(int16_t*)(tx_buf_data+7)=biaotou[2].ivalue;  // 电压表1
+*(int16_t*)(tx_buf_data+9)=biaotou[2].ivalue;  // 电压表1
 
-	*ptr++=0x01;  // 电压表2
-	*ptr++=0x02;
+//	*ptr+2=0x01;  // 电压表2
+//	*ptr++=0x02;
 
-	*ptr++=0x01;  // 电流表1 
-	*ptr++=0x02;
+//	*ptr++=0x01;  // 电流表1 
+//	*ptr++=0x02;
 
-	*ptr++=0x01;  // 电流表2 
-	*ptr++=cnt++;
+//	*ptr++=0x01;  // 电流表2 
+//	*ptr++=cnt++;
 
 
-	*ptr++=0xBE;
-	*ptr++=0xBF;//	
+	tx_buf_data[11]=0xBE;
+	tx_buf_data[12]=0xBF;//	
 
 	tx_buf_len =3+8+2;	
 	USB_sendPacket(tx_buf_data,tx_buf_len);
