@@ -209,19 +209,23 @@ void report_data(void)
 	tx_buf_data[3]=biaotou[0].address;
 	tx_buf_data[4]=biaotou[0].type;
 	*(int16_t*)(tx_buf_data+5)=biaotou[0].ivalue;  // 电压表1
+	*(int32_t*)(tx_buf_data+7)=biaotou[0].sn;  // 电压表1
 
-	tx_buf_data[7]=biaotou[1].address;
-	tx_buf_data[8]=biaotou[1].type;
-	*(int16_t*)(tx_buf_data+9)=biaotou[1].ivalue;  // 电压表1
+	tx_buf_data[11]=biaotou[1].address;
+	tx_buf_data[12]=biaotou[1].type;
+	*(int16_t*)(tx_buf_data+13)=biaotou[1].ivalue;  // 电压表1
+	*(int32_t*)(tx_buf_data+15)=biaotou[1].sn;  // 电压表1
 
-	tx_buf_data[11]=biaotou[2].address;
-	tx_buf_data[12]=biaotou[2].type;	
-	*(int16_t*)(tx_buf_data+13)=biaotou[2].ivalue;  // 电压表1
+	tx_buf_data[19]=biaotou[2].address;
+	tx_buf_data[20]=biaotou[2].type;	
+	*(int16_t*)(tx_buf_data+21)=biaotou[2].ivalue;  // 电压表1
+	*(int32_t*)(tx_buf_data+23)=biaotou[2].sn;  // 电压表1
 
 
-	tx_buf_data[15]=biaotou[3].address;
-	tx_buf_data[16]=biaotou[3].type;
-	*(int16_t*)(tx_buf_data+17)=biaotou[3].ivalue;  // 电压表1
+	tx_buf_data[27]=biaotou[3].address;
+	tx_buf_data[28]=biaotou[3].type;
+	*(int16_t*)(tx_buf_data+29)=biaotou[3].ivalue;  // 电压表1
+	*(int32_t*)(tx_buf_data+31)=biaotou[3].sn;  // 电压表1
 
 //	*ptr+2=0x01;  // 电压表2
 //	*ptr++=0x02;
@@ -233,10 +237,10 @@ void report_data(void)
 //	*ptr++=cnt++;
 
 
-	tx_buf_data[19]=0xBE;
-	tx_buf_data[20]=0xBF;//	
+	tx_buf_data[35]=0xBE;
+	tx_buf_data[36]=0xBF;//	
 
-	tx_buf_len =21;	
+	tx_buf_len =37;	
 	USB_sendPacket(tx_buf_data,tx_buf_len);
 
 }
